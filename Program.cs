@@ -62,26 +62,28 @@ map.Layers.ForEach((layer) =>
     AnsiConsole.WriteLine("original");
     AnsiConsole.WriteLine();
     AnsiConsole.WriteLine(layer.Data.Text);
-    var layerTiles = layer.Data.Text.Split(',').Select(x => x.Replace("\n", "")).Select(x =>
+    var layerTiles = layer.Data.Text.Split(',').Select(tile =>
     {
-        // AnsiConsole.WriteLine($"parsing '{x}'");
-        return int.Parse(x);
-    }).ToList();
-    var newLayerTiles = layerTiles.Select(layerTile =>
-    {
-        if (layerTile == 0 || !otherTilesets.Any(tileset => tileset.Values.Contains(layerTile)))
+        if (tile == "0" || tile == "\n")
         {
-            return layerTile;
+            return tile;
+        }
+        // AnsiConsole.WriteLine($"parsing '{x}'");
+        var tileGid = int.Parse(tile);
+        if (tileGid == 0 || !otherTilesets.Any(tileset => tileset.Values.Contains(tileGid)))
+        {
+            return tile;
         }
 
-        var tilesetContainingLayerTile = otherTilesets.Single(tileset => tileset.Values.Contains(layerTile));
-        var tileSetIndex = tilesetContainingLayerTile.FirstOrDefault(x => x.Value == layerTile).Key;
+        var tilesetContainingLayerTile = otherTilesets.Single(tileset => tileset.Values.Contains(tileGid));
+        var tileSetIndex = tilesetContainingLayerTile.FirstOrDefault(x => x.Value == tileGid).Key;
         var target = sourceTileset[tileSetIndex];
         // Console.WriteLine($"{layerTile} = {target}");
 
-        return target;
-    });
-    var newLayerTilesStringified = string.Join(',', newLayerTiles);
+        return target.ToString();
+
+    }).ToList();
+    var newLayerTilesStringified = string.Join(',', layerTiles);
     AnsiConsole.WriteLine();
     AnsiConsole.WriteLine();
     AnsiConsole.WriteLine("new");
@@ -96,5 +98,3 @@ map.Layers.ForEach((layer) =>
     //     return otherTilesets;
     // });
 });
-
-// put back the newlines \n?
