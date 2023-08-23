@@ -1,7 +1,8 @@
 ﻿using Spectre.Console;
 
-AnsiConsole.MarkupLine("Welcome to TMX merger by [purple]Tom O'Neill[/].");
-AnsiConsole.MarkupLine("Tilesets will always be merged into the first tileset. Remember, you can always fix the image source of the tileset later!");
+AnsiConsole.MarkupLine("Welcome to [purple]TMXmerge[/] by [blue]Tom O'Neill[/].");
+AnsiConsole.MarkupLine("NOTE: Tilesets will always be merged into the first tileset.");
+AnsiConsole.MarkupLine("Remember, you can always fix the image source of the leftover tileset later!");
 
 var tmxPath = AnsiConsole.Ask<string>("Where is the [purple].tmx[/] located?");
 var map = MapLoader.TryLoadMap(tmxPath);
