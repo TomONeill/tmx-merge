@@ -12,7 +12,7 @@ Then the tilesets in the .tmx file will be listed and can be selected to mark fo
 
 ## When to use
 
-If you have duplicate tilesets, used tiles from either tileset and now want to merge the tilesets into 1 tileset.
+If you have duplicate tilesets, used tiles from either tileset and now want to merge the tilesets into 1 tileset, keeping the used tiles from both tilesets.
 
 ## How was the duplicate tileset created?
 
