@@ -1,7 +1,7 @@
 ﻿using Spectre.Console;
 
 AnsiConsole.WriteLine();
-AnsiConsole.MarkupLine("Welcome to [purple]TMXmerge[/] by [blue]Tom O'Neill[/].");
+AnsiConsole.MarkupLine("Welcome to [purple]TMXmerge[/] ([grey]v0.0.1[/]) by [blue]Tom O'Neill[/].");
 AnsiConsole.WriteLine();
 AnsiConsole.MarkupLine("NOTE: Tilesets will always be merged into the first tileset.");
 AnsiConsole.MarkupLine("Remember, you can always fix the image source of the leftover tileset later!");
@@ -49,8 +49,13 @@ map.Layers.ForEach((layer) =>
         {
             return tile;
         }
-        var tileGid = int.Parse(tile);
-        if (tileGid == 0 || !otherTilesets.Any(tileset => tileset.Values.Contains(tileGid)))
+        var isParsable = int.TryParse(tile, out var tileGid);
+        if (!isParsable)
+        {
+            AnsiConsole.MarkupLine($"[yellow]WARNING: Layer '{layer.Name}' contained value '{tile}' which could not be processed. There could be issues with the merged result.[/]");
+            return tile;
+        }
+        if (!otherTilesets.Any(tileset => tileset.Values.Contains(tileGid)))
         {
             return tile;
         }
@@ -81,3 +86,5 @@ var destinationTmxPath = tmxPath.Replace(tmxPathWithoutExtension, $"{tmxPathWith
 MapSaver.SaveMap(map, destinationTmxPath);
 AnsiConsole.WriteLine();
 AnsiConsole.MarkupLine($"[green]All done![/] The merged file can be found at '[grey]{destinationTmxPath}[/]'");
+AnsiConsole.WriteLine();
+Console.ReadLine();
