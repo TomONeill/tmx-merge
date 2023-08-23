@@ -1,7 +1,7 @@
 ﻿using Spectre.Console;
 
 AnsiConsole.WriteLine();
-AnsiConsole.MarkupLine("Welcome to [purple]TMXmerge[/] ([grey]v0.0.1[/]) by [blue]Tom O'Neill[/].");
+AnsiConsole.MarkupLine("Welcome to [purple]TMXmerge[/] ([grey]v1.0.0[/]) by [blue]Tom O'Neill[/].");
 AnsiConsole.WriteLine();
 AnsiConsole.MarkupLine("NOTE: Tilesets will always be merged into the first tileset.");
 AnsiConsole.MarkupLine("Remember, you can always fix the image source of the leftover tileset later!");
