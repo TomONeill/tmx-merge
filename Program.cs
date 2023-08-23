@@ -18,6 +18,7 @@ if (map == null)
 // - deal with unparsable ints? Apparently that's a thing
 // - write unit test for example tmx
 // - add --force option to ignore layers that contain data that can't be processed (other data types than csv)
+// - Add --verbose option
 
 var selectedTilesets = AnsiConsole.Prompt(
     new MultiSelectionPrompt<Tileset>()
@@ -31,17 +32,10 @@ var selectedTilesets = AnsiConsole.Prompt(
         .UseConverter((tileset) => $"{tileset.Name} ([grey]{tileset.Image.Source}[/]) (tiles: {tileset.TileCount})")
 );
 
-
 var tileGrids = selectedTilesets.Select(tileset =>
 {
     var index = 0;
     return Enumerable.Range(tileset.FirstGid, tileset.TileCount).ToDictionary(i => index++);
-    // var tilesetDictionary = new Dictionary<int, int>();
-    // var gid = tileset.FirstGid;
-    // for (var index = 0; index < tileset.TileCount; index++)
-    // {
-    //     tilesetDictionary[index] = gid++;
-    // }
 });
 
 // tileset A  gid = 1, length = 10
@@ -68,19 +62,17 @@ map.Layers.ForEach((layer) =>
         {
             return tile;
         }
-        // AnsiConsole.WriteLine($"parsing '{x}'");
         var tileGid = int.Parse(tile);
         if (tileGid == 0 || !otherTilesets.Any(tileset => tileset.Values.Contains(tileGid)))
         {
             return tile;
         }
 
-        var tilesetContainingLayerTile = otherTilesets.Single(tileset => tileset.Values.Contains(tileGid));
-        var tileSetIndex = tilesetContainingLayerTile.FirstOrDefault(x => x.Value == tileGid).Key;
-        var target = sourceTileset[tileSetIndex];
-        // Console.WriteLine($"{layerTile} = {target}");
+        var tilesetContainingTile = otherTilesets.Single(tileset => tileset.Values.Contains(tileGid));
+        var tileSetIndex = tilesetContainingTile.FirstOrDefault(x => x.Value == tileGid).Key;
+        var sourceTilesetEquivalentGid = sourceTileset[tileSetIndex];
 
-        return target.ToString();
+        return sourceTilesetEquivalentGid.ToString();
 
     }).ToList();
     var newLayerTilesStringified = string.Join(',', layerTiles);
