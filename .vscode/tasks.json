@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/tmx-merge.csproj",
+                "${workspaceFolder}/tmx-tileset-merger.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/tmx-merge.csproj",
+                "${workspaceFolder}/tmx-tileset-merger.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/tmx-merge.csproj"
+                "${workspaceFolder}/tmx-tileset-merger.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

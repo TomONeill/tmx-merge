@@ -1,10 +1,10 @@
-# TMXmerge
+# TMX tileset merger
 
 Using Tiled and want to merge tilesets? This is the application for you.
 
 # Changelog
 
-<A HREF="https://raw.githubusercontent.com/TomONeill/tmx-merge/master/CHANGELOG.md">View changelog</A>
+<A HREF="https://raw.githubusercontent.com/TomONeill/tmx-tileset-merger/master/CHANGELOG.md">View changelog</A>
 
 # Donate
 
