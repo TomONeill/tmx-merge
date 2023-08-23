@@ -1,8 +1,11 @@
 ﻿using Spectre.Console;
 
+AnsiConsole.WriteLine();
 AnsiConsole.MarkupLine("Welcome to [purple]TMXmerge[/] by [blue]Tom O'Neill[/].");
+AnsiConsole.WriteLine();
 AnsiConsole.MarkupLine("NOTE: Tilesets will always be merged into the first tileset.");
 AnsiConsole.MarkupLine("Remember, you can always fix the image source of the leftover tileset later!");
+AnsiConsole.WriteLine();
 
 var tmxPath = AnsiConsole.Ask<string>("Where is the [purple].tmx[/] located?");
 var map = MapLoader.TryLoadMap(tmxPath);
@@ -14,7 +17,7 @@ if (map == null)
 
 var selectedTilesets = AnsiConsole.Prompt(
     new MultiSelectionPrompt<Tileset>()
-        .Title("What [purple]tilesets[/] do you want to merge?")
+        .Title("Which [purple]tilesets[/] do you want to merge?")
         .PageSize(10)
         .MoreChoicesText("[grey](Move up and down to reveal more tilesets)[/]")
         .InstructionsText(
