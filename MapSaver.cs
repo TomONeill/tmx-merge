@@ -1,15 +1,15 @@
 using System.Xml.Serialization;
 using Spectre.Console;
 
-public static class MapLoader
+public static class MapSaver
 {
-    public static Map? TryLoadMap(string tmxPath)
+    public static void SaveMap(Map map, string destinationTmxPath)
     {
         try
         {
             var serializer = new XmlSerializer(typeof(Map));
-            using var reader = new StreamReader(tmxPath);
-            return (Map?)serializer.Deserialize(reader);
+            using var reader = new StreamWriter(destinationTmxPath);
+            serializer.Serialize(reader, map);
         }
         catch (Exception ex)
         {

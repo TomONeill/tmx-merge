@@ -1,7 +1,7 @@
 ﻿using Spectre.Console;
 
-AnsiConsole.WriteLine("Welcome to TMX merger by Tom O'Neill.");
-AnsiConsole.WriteLine("Tilesets will always be merged into the first tileset. Remember, you can always fix the image source of the tileset later!");
+AnsiConsole.MarkupLine("Welcome to TMX merger by [purple]Tom O'Neill[/].");
+AnsiConsole.MarkupLine("Tilesets will always be merged into the first tileset. Remember, you can always fix the image source of the tileset later!");
 
 var tmxPath = AnsiConsole.Ask<string>("Where is the [purple].tmx[/] located?");
 var map = MapLoader.TryLoadMap(tmxPath);
@@ -31,17 +31,14 @@ var tileGrids = selectedTilesets.Select(tileset =>
 
 var sourceTileset = tileGrids.ElementAt(0);
 var otherTilesets = tileGrids.Skip(1);
-AnsiConsole.WriteLine($"Using {selectedTilesets.ElementAt(0).Name} as source.");
+AnsiConsole.MarkupLine($"Using tileset '[purple]{selectedTilesets.ElementAt(0).Name}[/]' ([grey]{selectedTilesets.ElementAt(0).Image.Source}[/]) as source.");
 map.Layers.ForEach((layer) =>
 {
-    AnsiConsole.WriteLine($"Processing layer '{layer.Name}'...");
+    AnsiConsole.MarkupLine($"Processing layer '[blue]{layer.Name}[/]'");
     if (layer.Data.Encoding != "csv")
     {
         throw new NotSupportedException($"Layer '{layer.Name}' had data encoding '{layer.Data.Encoding}'. Only 'csv' is supported. Please open an issue on GitHub.");
     }
-    AnsiConsole.WriteLine("original");
-    AnsiConsole.WriteLine();
-    AnsiConsole.WriteLine(layer.Data.Text);
     var layerTiles = layer.Data.Text.Split(',').Select(tile =>
     {
         if (tile == "0" || tile == "\n")
@@ -59,20 +56,24 @@ map.Layers.ForEach((layer) =>
         var sourceTilesetEquivalentGid = sourceTileset[tileSetIndex];
 
         return sourceTilesetEquivalentGid.ToString();
-
-    }).ToList();
-    var newLayerTilesStringified = string.Join(',', layerTiles);
-    AnsiConsole.WriteLine();
-    AnsiConsole.WriteLine();
-    AnsiConsole.WriteLine("new");
-    AnsiConsole.WriteLine(newLayerTilesStringified);
-    // layerTiles.Where(layerTile => layerTile > 0 && otherTilesets.Any(tileset => tileset.Values.Contains(layerTile))).Select(layerTile =>
-    // {
-    //     var tilesetContainingLayerTile = otherTilesets.Single(tileset => tileset.Values.Contains(layerTile));
-    //     var tileSetIndex = tilesetContainingLayerTile.FirstOrDefault(x => x.Value == layerTile).Key;
-    //     var target = sourceTileset[tileSetIndex];
-    //     Console.WriteLine($"{layerTile} = {target}");
-
-    //     return otherTilesets;
-    // });
+    });
+    AnsiConsole.MarkupLine($"Rewriting layer '[blue]{layer.Name}[/]'");
+    layer.Data.Text = string.Join(',', layerTiles);
 });
+
+var selectedTilesetsButFirst = selectedTilesets.GetRange(1, selectedTilesets.Count - 1);
+map.Tilesets.RemoveAll(tileset =>
+{
+    var shouldRemove = selectedTilesetsButFirst.Any(selectedTileset => tileset == selectedTileset);
+    if (shouldRemove)
+    {
+        AnsiConsole.MarkupLine($"Removing tileset '[purple]{tileset.Name}[/]' ([grey]{tileset.Image.Source}[/])");
+    }
+    return shouldRemove;
+});
+
+var tmxPathWithoutExtension = Path.GetFileNameWithoutExtension(tmxPath);
+var destinationTmxPath = tmxPath.Replace(tmxPathWithoutExtension, $"{tmxPathWithoutExtension}-merged");
+MapSaver.SaveMap(map, destinationTmxPath);
+AnsiConsole.WriteLine();
+AnsiConsole.MarkupLine($"[green]All done![/] The merged file can be found at '[grey]{destinationTmxPath}[/]'");
