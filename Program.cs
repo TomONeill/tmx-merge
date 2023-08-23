@@ -11,15 +11,6 @@ if (map == null)
     throw new FileLoadException($"Could not load '{tmxPath}'");
 }
 
-// TODO: improve selector:
-// - only list tilesets which have equal counts of other tileset
-// - only allow selection of tilesets that have equal counts
-// - prevent selecting only one tileset
-// - deal with unparsable ints? Apparently that's a thing
-// - write unit test for example tmx
-// - add --force option to ignore layers that contain data that can't be processed (other data types than csv)
-// - Add --verbose option
-
 var selectedTilesets = AnsiConsole.Prompt(
     new MultiSelectionPrompt<Tileset>()
         .Title("What [purple]tilesets[/] do you want to merge?")
@@ -37,11 +28,6 @@ var tileGrids = selectedTilesets.Select(tileset =>
     var index = 0;
     return Enumerable.Range(tileset.FirstGid, tileset.TileCount).ToDictionary(i => index++);
 });
-
-// tileset A  gid = 1, length = 10
-// tileset B  gid = 11, length = 10
-// A gid 3 = B gid 13
-// A[position] = gid
 
 var sourceTileset = tileGrids.ElementAt(0);
 var otherTilesets = tileGrids.Skip(1);
