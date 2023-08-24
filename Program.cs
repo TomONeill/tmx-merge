@@ -82,7 +82,7 @@ map.Tilesets.RemoveAll(tileset =>
 });
 
 var tmxPathWithoutExtension = Path.GetFileNameWithoutExtension(tmxPath);
-var destinationTmxPath = tmxPath.Replace(tmxPathWithoutExtension, $"{tmxPathWithoutExtension}-merged");
+var destinationTmxPath = tmxPath.Replace(tmxPathWithoutExtension, $"{tmxPathWithoutExtension}-deduplicated");
 MapSaver.SaveMap(map, destinationTmxPath);
 AnsiConsole.WriteLine();
 AnsiConsole.MarkupLine($"[green]All done![/] The consolidated file can be found at '[grey]{destinationTmxPath}[/]'");
