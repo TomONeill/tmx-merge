@@ -1,6 +1,6 @@
-# TMX tileset merger
+# TMX tileset deduplicator
 
-Using Tiled and want to merge tilesets? This is the application for you.
+Using Tiled and have duplicate tilesets you want to consolidate back into one? This is the application for you.
 
 > Usage notes: it is NOT possible at this moment in time to integrate this executable as a command in Tiled itself.
 > This is a standalone executable that should be used separately from Tiled.
@@ -8,11 +8,11 @@ Using Tiled and want to merge tilesets? This is the application for you.
 ## Usage
 
 Run the project/executable. The location of the .tmx file is being asked for.
-Then the tilesets in the .tmx file will be listed and can be selected to mark for merging. After that, tilesets will be merged and the duplicate tilesets will be removed. A new .tmx file is created in the same directory as the source.
+Then the tilesets in the .tmx file will be listed and can be selected to mark for deduplication. After that, tilesets will be consolidated and the duplicate tilesets will be removed. A new .tmx file is created in the same directory as the source.
 
 ## When to use
 
-If you have duplicate tilesets, used tiles from either tileset and now want to merge the tilesets into 1 tileset, keeping the used tiles from both tilesets.
+If you have duplicate tilesets, used tiles from either tileset and now want to consolidate the tilesets into 1 tileset, keeping the used tiles from both tilesets.
 
 ## How was the duplicate tileset created?
 
@@ -20,7 +20,7 @@ It's possible that you copied tiles from another .tmx file, causing a duplicate 
 
 # Releases
 
-<A HREF="https://github.com/TomONeill/tmx-tileset-merger/releases">Releases</A>
+<A HREF="https://github.com/TomONeill/tmx-tileset-deduplicator/releases">Releases</A>
 
 # Donate
 

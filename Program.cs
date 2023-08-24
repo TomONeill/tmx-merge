@@ -1,9 +1,9 @@
 ﻿using Spectre.Console;
 
 AnsiConsole.WriteLine();
-AnsiConsole.MarkupLine("Welcome to [purple]TMXmerge[/] ([grey]v1.0.0[/]) by [blue]Tom O'Neill[/].");
+AnsiConsole.MarkupLine("Welcome to [purple]TMX tileset deduplicator[/] ([grey]v1.0.1[/]) by [blue]Tom O'Neill[/].");
 AnsiConsole.WriteLine();
-AnsiConsole.MarkupLine("NOTE: Tilesets will always be merged into the first tileset.");
+AnsiConsole.MarkupLine("NOTE: Tilesets will always be consolidated into the first tileset.");
 AnsiConsole.MarkupLine("Remember, you can always fix the image source of the leftover tileset later!");
 AnsiConsole.WriteLine();
 
@@ -17,7 +17,7 @@ if (map == null)
 
 var selectedTilesets = AnsiConsole.Prompt(
     new MultiSelectionPrompt<Tileset>()
-        .Title("Which [purple]tilesets[/] do you want to merge?")
+        .Title("Which [purple]tilesets[/] do you want to deduplicate?")
         .PageSize(10)
         .MoreChoicesText("[grey](Move up and down to reveal more tilesets)[/]")
         .InstructionsText(
@@ -52,7 +52,7 @@ map.Layers.ForEach((layer) =>
         var isParsable = int.TryParse(tile, out var tileGid);
         if (!isParsable)
         {
-            AnsiConsole.MarkupLine($"[yellow]WARNING: Layer '{layer.Name}' contained value '{tile}' which could not be processed. There could be issues with the merged result.[/]");
+            AnsiConsole.MarkupLine($"[yellow]WARNING: Layer '{layer.Name}' contained value '{tile}' which could not be processed. There could be issues with the result, though it's not likely.[/]");
             return tile;
         }
         if (!otherTilesets.Any(tileset => tileset.Values.Contains(tileGid)))
@@ -85,6 +85,6 @@ var tmxPathWithoutExtension = Path.GetFileNameWithoutExtension(tmxPath);
 var destinationTmxPath = tmxPath.Replace(tmxPathWithoutExtension, $"{tmxPathWithoutExtension}-merged");
 MapSaver.SaveMap(map, destinationTmxPath);
 AnsiConsole.WriteLine();
-AnsiConsole.MarkupLine($"[green]All done![/] The merged file can be found at '[grey]{destinationTmxPath}[/]'");
+AnsiConsole.MarkupLine($"[green]All done![/] The consolidated file can be found at '[grey]{destinationTmxPath}[/]'");
 AnsiConsole.WriteLine();
 Console.ReadLine();
